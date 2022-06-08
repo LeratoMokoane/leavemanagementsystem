@@ -1,0 +1,121 @@
+<div class="container-fluid">
+
+  <nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Leave Management System</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#addLeave" type="button" (click)="getLeaveTypes()">Add Request</button>
+      </div>
+    </div>
+  </nav>
+
+
+
+  <table class="table table-hoover">
+    <thead>
+      <tr>
+        <th scope="col">Fisrt Name</th>
+        <th scope="col">Last Name</th>
+        <th scope="col">Reason</th>
+        <th scope="col">Type of Leave</th>
+        <th scope="col">Leave Requested(Days)</th>
+        <th scope="col">Leave Remaining(Days)</th>
+        <th scope="col">Start Date</th>
+        <th scope="col">End Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <tr *ngFor="let leaveRequest of empLeaveList">
+        <td>{{leaveRequest.firstName}}</td>
+        <td>{{leaveRequest.lastName}}</td>
+        <td>{{leaveRequest.reason}}</td>
+        <td>{{leaveRequest.typeOfLeave}}</td>
+        <td>{{leaveRequest.leaveTaken}}</td>
+        <td>{{leaveRequest.leaveRemaining}}</td>
+        <td>{{leaveRequest.dateFrom}}</td>
+        <td>{{leaveRequest.dateTo}}</td>
+      </tr>
+
+    </tbody>
+  </table>
+
+  <!-- Add Leave Request -->
+  <div class="modal fade" id="addLeave" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Leave Request</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+          <form [formGroup]="leaveDetail">
+            <div class="mb-3">
+              <label for="firstName" class="form-label">First Name</label>
+              <input type="text" formControlName="firstName" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            </div>
+
+            <div class="mb-3">
+              <label for="lastName" class="form-label">Last Name</label>
+              <input type="text" formControlName="lastName" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            </div>
+
+            <div class="input-group">
+              <mat-form-field appearance="fill">
+                <mat-label>Choose Leave Type</mat-label>
+                <mat-select [(ngModel)]="selectedValue" [ngModelOptions]="{standalone: true}" name="leave">
+                  <mat-option *ngFor="let leaveType of leaveTypeList" value={{leaveType.id}}>
+                    {{leaveType.leaveType}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+              <div class="input-group">
+                <span class="input-group-text">Reason</span>
+                <textarea class="form-control" aria-label="Reason" formControlName="reason"></textarea>
+              </div>
+
+              <div class="input-group">
+                <mat-form-field appearance="fill" class="example-form-field">
+                  <mat-label>Start Date</mat-label>
+                  <input matInput [matDatepicker]="datepicker">
+                  <mat-hint>MM/DD/YYYY</mat-hint>
+                  <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+                  <mat-datepicker #datepicker>
+                    <mat-datepicker-actions>
+                      <button mat-button matDatepickerCancel>Cancel</button>
+                      <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+                    </mat-datepicker-actions>
+                  </mat-datepicker>
+                </mat-form-field>
+              </div>            
+
+              <div class="mb-3">
+                <label for="leaveTaken" class="form-label">Leave Taken</label>
+                <input type="text" formControlName="leaveTaken" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+              </div>
+
+              <div class="mb-3">
+                <label for="leaveRemaining" class="form-label">Leave Remaining</label>
+                <input type="text" formControlName="leaveRemaining" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" (click)="addLeave()">Submit</button>
+              </div>
+
+          </form>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
